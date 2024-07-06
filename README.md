@@ -23,3 +23,10 @@ https://developer.android.com/codelabs/basic-android-kotlin-compose-getting-data
 
 //Retrofit documentation
 https://square.github.io/retrofit/
+
+
+//Resources for free APIs. I recommend finding a paging API.
+https://rapidapi.com/
+https://publicapis.io/
+https://github.com/public-api-lists/public-api-lists
+https://www.freecodecamp.org/news/public-apis-for-developers/
