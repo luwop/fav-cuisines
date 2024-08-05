@@ -10,6 +10,10 @@ import edu.uchicago.gerber.favs.data.models.VolumesResponse
 
 object Constants {
 
+    //toggle this to true if you want to use cognito to authenticate.
+    //do not forget to go through the amplify instructions (## to implement authentication) in README first
+    val authenticate = false
+
     val modifier = Modifier.padding(paddingValues = PaddingValues(all = 0.dp))
 
     val googleUrl = "https://www.googleapis.com/"

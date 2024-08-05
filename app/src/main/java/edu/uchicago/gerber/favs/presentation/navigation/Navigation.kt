@@ -6,9 +6,11 @@ import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.amazonaws.auth.policy.Condition
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import edu.uchicago.gerber.favs.authorization.AmplifyService
+import edu.uchicago.gerber.favs.common.Constants
 import edu.uchicago.gerber.favs.presentation.screens.auth.LoginScreen
 import edu.uchicago.gerber.favs.presentation.screens.auth.SignUpScreen
 import edu.uchicago.gerber.favs.presentation.screens.auth.VerifyScreen
@@ -26,7 +28,14 @@ fun Navigation(
     amplifyService: AmplifyService
 ) {
 
-    AnimatedNavHost(navController, startDestination = Screen.Login.route) {
+    //set start screen conditionally
+    val startDestination = if (Constants.authenticate) {
+        Screen.Login.route
+    } else {
+        Screen.Search.route
+    }
+
+    AnimatedNavHost(navController, startDestination = startDestination) {
         composable(Screen.Search.route) {
             SearchScreen(bookViewModel, navController, amplifyService)
 

@@ -1,5 +1,6 @@
 package edu.uchicago.gerber.favs.presentation.widgets
 
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,6 +25,7 @@ import androidx.navigation.NavController
 
 import edu.uchicago.gerber.favs.R
 import edu.uchicago.gerber.favs.authorization.AmplifyService
+import edu.uchicago.gerber.favs.common.Constants
 import edu.uchicago.gerber.favs.presentation.navigation.Screen
 import edu.uchicago.gerber.favs.presentation.screens.auth.navigateAndPop
 import edu.uchicago.gerber.favs.presentation.viewmodels.BookViewModel
@@ -34,8 +36,9 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomTopBar(titleText: String,  navController: NavController, amplifyService: AmplifyService) {
-      val context = LocalContext.current
-      TopAppBar(
+    val context = LocalContext.current
+
+    TopAppBar(
         colors = TopAppBarDefaults.smallTopAppBarColors(
             containerColor = Color.Transparent
         ),
@@ -51,8 +54,7 @@ fun CustomTopBar(titleText: String,  navController: NavController, amplifyServic
 
         },
         actions = {
-            // RowScope here, so these icons will be placed horizontally
-            IconButton(
+            if (Constants.authenticate) IconButton(
                 onClick = {
                     amplifyService.logOut {
                         MainScope().launch {
