@@ -22,17 +22,19 @@ class AmplifyService  {
             Log.e("ampy", "Amplify configuration failed", e)
         }
     }
+    //this method fetches the sessionEmail. This is the email associated with the current user's authenticated
+    //session. This value may be different from the 'email' prop which is part of the auth-flow and already defined in ViewModel.
     fun fetchEmailAndLog() {
         Amplify.Auth.fetchUserAttributes(
             { attributes: List<AuthUserAttribute> ->
-                // Use the firstOrNull function to get the email attribute
+                // Use the firstOrNull function to get the session email attribute
                 val emailAttribute = attributes.firstOrNull { it.key == AuthUserAttributeKey.email() }
                 if (emailAttribute != null) {
-                    val email = emailAttribute.value
-                    Log.i("ampy", "Email: $email")
+                    val sessionEmail = emailAttribute.value
+                    Log.i("ampy", "Session Email: $sessionEmail")
 
                 } else {
-                    Log.i("ampy", "Email attribute not found")
+                    Log.i("ampy", "Session Email attribute not found")
 
                 }
             },
