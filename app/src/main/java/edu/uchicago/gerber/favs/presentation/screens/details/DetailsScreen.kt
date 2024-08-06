@@ -3,6 +3,7 @@ package edu.uchicago.gerber.favs.presentation.screens.details
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -47,6 +48,7 @@ import androidx.navigation.NavController
 import com.skydoves.landscapist.glide.GlideImage
 import edu.uchicago.gerber.favs.R
 import edu.uchicago.gerber.favs.common.Constants
+import edu.uchicago.gerber.favs.data.models.FavItem
 import edu.uchicago.gerber.favs.presentation.viewmodels.BookViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -210,7 +212,12 @@ fun DetailsScreen(
                         .fillMaxWidth(1f),
 
                     onClick = {
-                        Toast.makeText(activity, "Add to Favorites Button Pressed", Toast.LENGTH_LONG).show()
+                        //use the user's sessionEmail which should be set the ViewModel upon Login
+                        val favItem =  FavItem(book, "session@gmail.com")
+                        //send this json object with a POST to your favorites microservice to create a new favorite
+                        val jsonString = favItem.toJson().toString()
+                        Toast.makeText(activity, jsonString, Toast.LENGTH_LONG).show()
+                        Log.i("favorite", jsonString)
                     },
 
                     colors =
