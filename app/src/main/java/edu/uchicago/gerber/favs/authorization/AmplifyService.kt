@@ -12,6 +12,7 @@ import com.amplifyframework.core.Amplify
 
 
 class AmplifyService  {
+
      fun configureAmplify(context: Context) {
         try {
             Amplify.addPlugin(AWSCognitoAuthPlugin())
@@ -21,23 +22,24 @@ class AmplifyService  {
             Log.e("ampy", "Amplify configuration failed", e)
         }
     }
-    fun logUserAttributes(): Unit {
-
+    fun fetchEmailAndLog() {
         Amplify.Auth.fetchUserAttributes(
-            { attributes: List<AuthUserAttribute?> ->
-                for (attribute in attributes) {
-                    Log.i("ampy", attribute!!.key.toString() + ":" + attribute.value)
+            { attributes: List<AuthUserAttribute> ->
+                // Use the firstOrNull function to get the email attribute
+                val emailAttribute = attributes.firstOrNull { it.key == AuthUserAttributeKey.email() }
+                if (emailAttribute != null) {
+                    val email = emailAttribute.value
+                    Log.i("ampy", "Email: $email")
+
+                } else {
+                    Log.i("ampy", "Email attribute not found")
+
                 }
-
+            },
+            { error: AuthException ->
+                Log.e("ampy", "Failed to fetch user attributes.", error)
             }
-        ) { error: AuthException? ->
-            Log.e(
-                "ampy",
-                "Failed to fetch user attributes.",
-                error
-            )
-        }
-
+        )
     }
 
      fun signUp(username: String, email: String, password: String, onComplete: () -> Unit) {

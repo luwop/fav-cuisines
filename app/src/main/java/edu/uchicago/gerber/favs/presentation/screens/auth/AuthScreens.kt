@@ -98,7 +98,8 @@ fun LoginScreen(viewModel: BookViewModel, navController: NavController, amplifyS
         Button(onClick =   {
 
             amplifyService.login(viewModel.username.value, viewModel.password.value){
-                amplifyService.logUserAttributes()
+                //this method will log the user's email address to Logcat. Filter for ampy
+                amplifyService.fetchEmailAndLog()
                 MainScope().launch {
                     navigateAndPop(navController, Screen.Search.route)
                 }
