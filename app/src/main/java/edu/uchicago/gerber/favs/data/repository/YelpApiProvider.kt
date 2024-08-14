@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object YelpApiProvider {
 
-    fun booksApi(): YelpApi {
+    fun yelpApi(): YelpApi {
         return Retrofit.Builder()
             .baseUrl(Constants.googleUrl)
             //add a client allows us to intercept the network traffic

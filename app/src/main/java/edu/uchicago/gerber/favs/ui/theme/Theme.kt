@@ -38,7 +38,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun FavoriteBooksTheme(
+fun  CusineTheme(
     //todo set back to isSystemInDarkTheme()
    // darkTheme: Boolean = isSystemInDarkTheme(),
     darkTheme: Boolean = false,

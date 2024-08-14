@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import edu.uchicago.gerber.favs.ui.theme.FavoriteBooksTheme
+import edu.uchicago.gerber.favs.ui.theme.CusineTheme
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import edu.uchicago.gerber.favs.presentation.navigation.Navigation
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         amplifyService.configureAmplify(this)
         setContent {
-            FavoriteBooksTheme {
+            CusineTheme {
                 val navController = rememberAnimatedNavController()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
