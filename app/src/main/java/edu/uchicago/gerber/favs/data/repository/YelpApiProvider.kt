@@ -1,6 +1,6 @@
 package edu.uchicago.gerber.favs.data.repository
 
-import edu.uchicago.gerber.favs.common.Constants
+import edu.uchicago.gerber.favs.common.Constant
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -10,7 +10,7 @@ object YelpApiProvider {
 
     fun yelpApi(): YelpApi {
         return Retrofit.Builder()
-            .baseUrl(Constants.googleUrl)
+            .baseUrl(Constant.yelpUrl)
             //add a client allows us to intercept the network traffic
             .client(getOkHttpClient())
             .addConverterFactory(GsonConverterFactory.create())

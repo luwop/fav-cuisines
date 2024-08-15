@@ -25,18 +25,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.coil.rememberCoilPainter
-import edu.uchicago.gerber.favs.data.models.Item
+import edu.uchicago.gerber.favs.data.model.Business
 
 @Composable
-fun BookRow(
-    book: Item,
+fun BusinessRow(
+    business: Business,
     onItemClick: (String) -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                book.id?.let {
+                business.id?.let {
                     //passed down from composable (BookList) that instantiates BookRow
                     onItemClick(it)
                 }
