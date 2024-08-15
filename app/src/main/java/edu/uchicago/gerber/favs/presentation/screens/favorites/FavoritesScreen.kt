@@ -17,8 +17,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import edu.uchicago.gerber.favs.authorization.AmplifyService
-import edu.uchicago.gerber.favs.common.Constants
-import edu.uchicago.gerber.favs.presentation.viewmodels.BookViewModel
+import edu.uchicago.gerber.favs.common.Constant
+import edu.uchicago.gerber.favs.presentation.viewmodels.BusinessViewModel
 import edu.uchicago.gerber.favs.presentation.widgets.CustomBottomNavigationBar
 import edu.uchicago.gerber.favs.presentation.widgets.CustomTopBar
 
@@ -26,7 +26,7 @@ import edu.uchicago.gerber.favs.presentation.widgets.CustomTopBar
 @Composable
 fun FavoritesScreen(navController: NavController, amplifyService: AmplifyService) {
     Scaffold(
-        modifier = Constants.modifier,
+        modifier = Constant.modifier,
         bottomBar = { CustomBottomNavigationBar(navController) },
         topBar = {
             CustomTopBar(titleText = "Favorites",navController=navController, amplifyService=amplifyService)

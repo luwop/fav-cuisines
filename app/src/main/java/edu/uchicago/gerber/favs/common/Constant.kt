@@ -8,14 +8,15 @@ import com.google.gson.Gson
 import edu.uchicago.gerber.favs.data.model.Business
 import edu.uchicago.gerber.favs.data.model.BusinessResponse
 
+
 object Constant {
-    val authenticate = false
+    const val AUTHENTICATED = false
 
     val modifier = Modifier.padding(paddingValues = PaddingValues(all = 0.dp))
 
     val yelpUrl = "https://api.yelp.com/v3/"
-    val fakeBusiness: Business = TODO()
-    val fakeResponse: BusinessResponse = TODO()
+    val fakeBusiness: Business
+    val fakeResponse: BusinessResponse
 
     init {
         val gson = Gson()

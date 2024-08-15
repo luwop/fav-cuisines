@@ -13,12 +13,9 @@ data class Favorites(
     var coordinates: Coordinates,
     var transactions: List<String>,
     var price: String,
-    var location: Location,
     var phone: String,
     var displayPhone: String,
     var distance: Double = 0.0,
-    var businessHours: List<String>,
-    var attributes: Map<String, String>
 )
 
 data class Coordinates(

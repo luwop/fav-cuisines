@@ -59,7 +59,7 @@ public class Business {
     private Double distance;
     @SerializedName("business_hours")
     @Expose
-    private List<BusinessHour> businessHours;
+    private Boolean businessHours;
     @SerializedName("attributes")
     @Expose
     private Attributes attributes;
@@ -192,11 +192,11 @@ public class Business {
         this.distance = distance;
     }
 
-    public List<BusinessHour> getBusinessHours() {
+    public Boolean getBusinessHours() {
         return businessHours;
     }
 
-    public void setBusinessHours(List<BusinessHour> businessHours) {
+    public void setBusinessHours(Boolean businessHours) {
         this.businessHours = businessHours;
     }
 

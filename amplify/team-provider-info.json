@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-favcuisines-dev-930c1-authRole",
+      "UnauthRoleArn": "arn:aws:iam::022499008615:role/amplify-favcuisines-dev-930c1-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::022499008615:role/amplify-favcuisines-dev-930c1-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-favcuisines-dev-930c1-deployment",
+      "UnauthRoleName": "amplify-favcuisines-dev-930c1-unauthRole",
+      "StackName": "amplify-favcuisines-dev-930c1",
+      "StackId": "arn:aws:cloudformation:us-east-2:022499008615:stack/amplify-favcuisines-dev-930c1/767e88a0-5a8c-11ef-97b7-029ffd3ad645",
+      "AmplifyAppId": "d6tt6blafzfwl"
+    },
+    "categories": {
+      "auth": {
+        "favcuisinesb0bc178b": {}
+      }
+    }
+  }
+}

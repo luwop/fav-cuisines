@@ -8,7 +8,7 @@ import com.amplifyframework.auth.AuthUserAttributeKey
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 import com.amplifyframework.auth.options.AuthSignUpOptions
 import com.amplifyframework.core.Amplify
-
+import edu.uchicago.gerber.favs.presentation.viewmodels.BusinessViewModel
 
 
 class AmplifyService  {
@@ -24,13 +24,14 @@ class AmplifyService  {
     }
     //this method fetches the sessionEmail. This is the email associated with the current user's authenticated
     //session. This value may be different from the 'email' prop which is part of the auth-flow and already defined in ViewModel.
-    fun fetchEmailAndLog() {
+    fun fetchEmailAndLog(viewModel: BusinessViewModel) {
         Amplify.Auth.fetchUserAttributes(
             { attributes: List<AuthUserAttribute> ->
                 // Use the firstOrNull function to get the session email attribute
                 val emailAttribute = attributes.firstOrNull { it.key == AuthUserAttributeKey.email() }
                 if (emailAttribute != null) {
                     val sessionEmail = emailAttribute.value
+                    viewModel.setEmail(sessionEmail)
                     Log.i("ampy", "Session Email: $sessionEmail")
 
                 } else {
@@ -49,10 +50,12 @@ class AmplifyService  {
             .userAttribute(AuthUserAttributeKey.email(), email)
             .build()
 
-        Amplify.Auth.signUp(username, password, options,
-            { onComplete() },
-            { Log.e("ampy", "Sign Up Error:", it) }
-        )
+         Amplify.Auth.signUp(username, password, options,
+             { onComplete() },
+             { exception ->
+                 Log.e("ampy", "Sign Up Error: ${exception.localizedMessage}", exception)
+             }
+         )
     }
 
      fun verifyCode(username: String, code: String, onComplete: () -> Unit) {

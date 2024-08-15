@@ -15,13 +15,13 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import edu.uchicago.gerber.favs.presentation.navigation.Screen
-import edu.uchicago.gerber.favs.presentation.viewmodels.BookViewModel
+import edu.uchicago.gerber.favs.presentation.viewmodels.BusinessViewModel
 
 @Composable
-fun BookList(bookViewModel: BookViewModel, navController: NavController) {
+fun BusinessList(businessViewModel: BusinessViewModel, navController: NavController) {
 
     //this is what consumes the flow
-    val lazyPagingItems = bookViewModel.searchState.value.data?.collectAsLazyPagingItems()
+    val lazyPagingItems = businessViewModel.searchState.value.data?.collectAsLazyPagingItems()
 
     LazyColumn {
         items(
@@ -31,9 +31,9 @@ fun BookList(bookViewModel: BookViewModel, navController: NavController) {
         ) { index ->
             //the following lines define the onItemClick behavior
             val boolItem = lazyPagingItems[index]!!
-            BookRow(book = boolItem) {
+            BusinessRow(business = boolItem) {
                 //the following lines define the onItemClick behavior
-                bookViewModel.setBook(boolItem)
+                businessViewModel.setBusiness(boolItem)
                 navController.navigate(
                     route = Screen.Detail.route
                 )

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -47,24 +46,25 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.skydoves.landscapist.glide.GlideImage
 import edu.uchicago.gerber.favs.R
-import edu.uchicago.gerber.favs.common.Constants
-import edu.uchicago.gerber.favs.data.models.FavItem
-import edu.uchicago.gerber.favs.presentation.viewmodels.BookViewModel
+import edu.uchicago.gerber.favs.common.Constant
+import edu.uchicago.gerber.favs.data.repository.Favorites
+import edu.uchicago.gerber.favs.data.repository.FavoritesUtils
+import edu.uchicago.gerber.favs.presentation.viewmodels.BusinessViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsScreen(
-    bookViewModel: BookViewModel,
+    businessViewModel: BusinessViewModel,
     navController: NavController
 ) {
 
     //observe the book
-    val book = bookViewModel.book.value
+    val business = businessViewModel.business.value
     val activity = (LocalContext.current as? Activity)
 
 
     Scaffold(
-        modifier = Constants.modifier,
+        modifier = Constant.modifier,
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.smallTopAppBarColors(
@@ -107,7 +107,7 @@ fun DetailsScreen(
                                     sendIntent.type = "text/plain"
                                     sendIntent.putExtra(
                                         Intent.EXTRA_TEXT,
-                                        "You must check out this book!: ${book.volumeInfo}"
+                                        "You must check out this business!: ${business.name}"
                                     )
                                     activity?.startActivity(sendIntent)
                                 }
@@ -120,12 +120,11 @@ fun DetailsScreen(
                             modifier = Modifier
                                 .clickable {
                                     //this would be used for navigating if you have a physical address
-                                    val oberweisDairyAddress =
-                                        "9 E Dundee Rd, Arlington Heights, IL 60004"
+                                    val coordinates = business.coordinates
                                     val intent = Intent(
                                         Intent.ACTION_VIEW,
                                         Uri.parse(
-                                            "google.navigation:q=$oberweisDairyAddress"
+                                            "google.navigation:q=${coordinates.latitude},${coordinates.longitude}"
                                         )
                                     )
                                     activity?.startActivity(intent)
@@ -133,13 +132,13 @@ fun DetailsScreen(
                                 .align(Alignment.CenterVertically)
                                 .padding(10.dp, 0.dp, 10.dp, 0.dp))
                         Spacer(modifier = Modifier.width(20.dp))
-                        Icon(imageVector = Icons.Default.Phone,
+                        Icon(
+                            imageVector = Icons.Default.Phone,
                             contentDescription = "Phone",
-
                             modifier = Modifier
                                 .clickable {
-                                    //this would be used for dialing if you have a phone number
-                                    val phoneNumber = "800-555-1212"
+                                    // Retrieve the phone number from the business object
+                                    val phoneNumber = business.phone
                                     val intent = Intent(
                                         Intent.ACTION_DIAL,
                                         Uri.parse("tel:$phoneNumber")
@@ -147,7 +146,8 @@ fun DetailsScreen(
                                     activity?.startActivity(intent)
                                 }
                                 .align(Alignment.CenterVertically)
-                                .padding(0.dp, 0.dp, 20.dp, 0.dp))
+                                .padding(0.dp, 0.dp, 20.dp, 0.dp)
+                        )
                     }
 
                 }
@@ -175,13 +175,13 @@ fun DetailsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .size(300.dp),
-                    imageModel = book.volumeInfo?.imageLinks?.thumbnail?.replace("http", "https") ?: "https://picsum.photos/id/1026/200/300",
+                    imageModel = business.imageUrl?.replace("http", "https") ?: "https://picsum.photos/id/1026/200/300",
                     // Crop, Fit, Inside, FillHeight, FillWidth, None
                     contentScale = ContentScale.Fit
 
                 )
-                with(book.volumeInfo){
-                    title?.let {
+                with(business){
+                    name?.let {
                         Text(
                             text = it,
                             modifier = Modifier
@@ -192,7 +192,7 @@ fun DetailsScreen(
                             fontSize = 22.sp
                         )
                     }
-                    authors?.get(0)?.let {
+                    alias?.let {
                         Text(
                             text = it,
                             modifier = Modifier
@@ -212,20 +212,42 @@ fun DetailsScreen(
                         .fillMaxWidth(1f),
 
                     onClick = {
-                        //use the user's sessionEmail which should be set the ViewModel upon Login
-                        val favItem =  FavItem(book, "session@gmail.com")
-                        //send this json object with a POST to your favorites microservice to create a new favorite
-                        val jsonString = favItem.toJson().toString()
-                        Toast.makeText(activity, jsonString, Toast.LENGTH_LONG).show()
-                        Log.i("favorite", jsonString)
+                        // Create a Favorites object using the user's session email and the business details
+                        val favorite = Favorites(
+                            sessionEmail = businessViewModel.email.value ?: "",
+                            name = business.name,
+                            alias = business.alias,
+                            imageUrl = business.imageUrl,
+                            isClosed = business.isClosed,
+                            url = business.url,
+                            reviewCount = business.reviewCount,
+                            categories = business.categories.map { it.title },
+                            rating = business.rating,
+                            coordinates = edu.uchicago.gerber.favs.data.repository.Coordinates(
+                                latitude = business.coordinates.latitude,
+                                longitude = business.coordinates.longitude
+                            ),
+                            transactions = business.transactions,
+                            price = business.price,
+                            phone = business.phone,
+                            displayPhone = business.displayPhone,
+                            distance = business.distance
+                        )
+
+                        // Use the FavoritesUtils to create a new favorite in the database
+                        FavoritesUtils.createFavorite(favorite)
+
+                        // Optionally show a Toast or log the action
+//                        Toast.makeText(activity, "Added to Favorites", Toast.LENGTH_LONG).show()
+                        Log.i("favorite", "Added to Favorites: $favorite")
                     },
 
                     colors =
                     ButtonDefaults.buttonColors(containerColor = Color.Green)
-
                 ) {
                     Text(text = "Add to Favorites")
                 }
+
 
             }
         }

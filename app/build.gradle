@@ -97,8 +97,4 @@ dependencies {
 
     //cognito
     implementation 'com.amplifyframework:aws-auth-cognito:1.36.2'
-
-
-
-
 }

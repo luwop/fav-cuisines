@@ -15,14 +15,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import edu.uchicago.gerber.favs.authorization.AmplifyService
 import edu.uchicago.gerber.favs.presentation.navigation.Screen
-import edu.uchicago.gerber.favs.presentation.viewmodels.BookViewModel
+import edu.uchicago.gerber.favs.presentation.viewmodels.BusinessViewModel
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpScreen(viewModel: BookViewModel, navController: NavController, amplifyService: AmplifyService) {
+fun SignUpScreen(viewModel: BusinessViewModel, navController: NavController, amplifyService: AmplifyService) {
 
 
     Column(
@@ -56,9 +56,7 @@ fun SignUpScreen(viewModel: BookViewModel, navController: NavController, amplify
                 MainScope().launch {
                     navigateAndPop(navController, Screen.Verify.route)
                 }
-
             }
-
 
         }) {
             Text(text = "Sign Up")
@@ -73,7 +71,7 @@ fun SignUpScreen(viewModel: BookViewModel, navController: NavController, amplify
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(viewModel: BookViewModel, navController: NavController, amplifyService: AmplifyService) {
+fun LoginScreen(viewModel: BusinessViewModel, navController: NavController, amplifyService: AmplifyService) {
 
 
     Column(
@@ -99,7 +97,7 @@ fun LoginScreen(viewModel: BookViewModel, navController: NavController, amplifyS
 
             amplifyService.login(viewModel.username.value, viewModel.password.value){
                 //this method will log the user's email address to Logcat. Filter for ampy
-                amplifyService.fetchEmailAndLog()
+                amplifyService.fetchEmailAndLog(viewModel)
                 MainScope().launch {
                     navigateAndPop(navController, Screen.Search.route)
                 }
@@ -123,7 +121,7 @@ fun LoginScreen(viewModel: BookViewModel, navController: NavController, amplifyS
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VerifyScreen(viewModel: BookViewModel, navController: NavController, amplifyService: AmplifyService) {
+fun VerifyScreen(viewModel: BusinessViewModel, navController: NavController, amplifyService: AmplifyService) {
 
 
     Column(

@@ -1,6 +1,7 @@
 package edu.uchicago.gerber.favs
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,9 +17,13 @@ import edu.uchicago.gerber.favs.authorization.AmplifyService
 @OptIn(ExperimentalAnimationApi::class)
 class MainActivity : ComponentActivity() {
     private val amplifyService: AmplifyService = AmplifyService()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        amplifyService.configureAmplify(this)
+
+        // Configure Amplify with error handling
+        configureAmplify()
+
         setContent {
             CusineTheme {
                 val navController = rememberAnimatedNavController()
@@ -29,6 +34,15 @@ class MainActivity : ComponentActivity() {
                     Navigation(navController = navController, amplifyService = amplifyService)
                 }
             }
+        }
+    }
+
+    private fun configureAmplify() {
+        try {
+            amplifyService.configureAmplify(this)
+            Log.i("MainActivity", "Amplify successfully configured")
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Amplify configuration failed", e)
         }
     }
 }

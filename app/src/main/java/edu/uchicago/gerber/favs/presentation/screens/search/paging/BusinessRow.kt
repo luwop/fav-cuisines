@@ -1,5 +1,6 @@
 package edu.uchicago.gerber.favs.presentation.screens.search.paging
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -52,9 +53,11 @@ fun BusinessRow(
 
             Surface(modifier = Modifier.padding(0.dp, 0.dp, 10.dp, 0.dp)) {
                 //we use coil library here to get fadeIn effect
+                // Log a debug message
+                Log.d("Image Url", business.imageUrl)
                 val image = rememberCoilPainter(
-                    request = book.volumeInfo?.imageLinks?.smallThumbnail?.replace("http", "https") ?: "https://picsum.photos/id/1026/60/90",
-                    fadeIn = true)
+                    request = business.imageUrl,
+                            fadeIn = true)
                 Image(
                     painter = image,
                     contentDescription = null,
@@ -70,12 +73,16 @@ fun BusinessRow(
 
                 Text(
                     //sometimes, the authors are null; for example when it is a United Nations report
-                    text = book.volumeInfo?.authors?.get(0) ?: "None",
+                    text = business.name ?: "None",
                     style = TextStyle(fontWeight = FontWeight.Bold),
                     textAlign = TextAlign.Start,
                     fontSize = 18.sp
                 )
-                Text(text = book.volumeInfo?.title ?: "None")
+                val transactions: List<String> = business.transactions ?: emptyList()
+                val transactionsText = transactions.joinToString(separator = ", ")
+                Text(text = transactionsText )
+                Text(text = business.price ?: "None" )
+
             }
         }
     }

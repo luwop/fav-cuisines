@@ -19,10 +19,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import edu.uchicago.gerber.favs.authorization.AmplifyService
-import edu.uchicago.gerber.favs.common.Constants
-import edu.uchicago.gerber.favs.presentation.screens.search.paging.BookList
+import edu.uchicago.gerber.favs.common.Constant
+import edu.uchicago.gerber.favs.presentation.screens.search.paging.*
 import edu.uchicago.gerber.favs.presentation.screens.search.paging.SearchOperation
-import edu.uchicago.gerber.favs.presentation.viewmodels.BookViewModel
+import edu.uchicago.gerber.favs.presentation.viewmodels.BusinessViewModel
 import edu.uchicago.gerber.favs.presentation.widgets.CustomBottomNavigationBar
 import edu.uchicago.gerber.favs.presentation.widgets.CustomOutlinedTextField
 import edu.uchicago.gerber.favs.presentation.widgets.CustomTopBar
@@ -30,18 +30,18 @@ import edu.uchicago.gerber.favs.presentation.widgets.CustomTopBar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
-    bookViewModel: BookViewModel,
+    businessViewModel: BusinessViewModel,
     navController: NavController,
     amplifyService: AmplifyService
 ) {
-    val state = bookViewModel.searchState.value
-    val queryText = bookViewModel.queryText.value
+    val state = businessViewModel.searchState.value
+    val queryText = businessViewModel.termText.value
 
     Scaffold(
-        modifier = Constants.modifier,
+        modifier = Constant.modifier,
         bottomBar = { CustomBottomNavigationBar(navController) },
         topBar = {
-            CustomTopBar(titleText = "Search Books",navController=navController, amplifyService=amplifyService)
+            CustomTopBar(titleText = "Search Cuisines",navController=navController, amplifyService=amplifyService)
         }
     ) { paddingValues ->
         Column(
@@ -53,13 +53,13 @@ fun SearchScreen(
         ) {
 
             CustomOutlinedTextField(
-                title = "Search term(s)",
-                placeHolder = "e.g. java",
+                title = "Search Term",
+                placeHolder = "e.g. pizza",
                 textState = queryText,
-                onTextChange = bookViewModel::setQueryText,
+                onTextChange = businessViewModel::setTermText,
                 keyboardType = KeyboardType.Text,
                 ImeAction.Search,
-                bookViewModel::onSearch
+                businessViewModel::onSearch
             )
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -80,7 +80,7 @@ fun SearchScreen(
                     }
                 }
                 SearchOperation.DONE -> {
-                    BookList(bookViewModel, navController)
+                    BusinessList(businessViewModel, navController)
                 }
                 else -> {
                     Box {}
